@@ -1,4 +1,8 @@
 package com.procurement.system.enums;
 
-public class SupplierStatus {
+public enum SupplierStatus {
+    ACTIVE,
+    INACTIVE,
+    PENDING,
+    BLOCKED
 }

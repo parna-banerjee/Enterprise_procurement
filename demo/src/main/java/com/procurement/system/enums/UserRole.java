@@ -1,4 +1,7 @@
 package com.procurement.system.enums;
 
-public class UserRole {
+public enum UserRole {
+    ADMIN,
+    MANAGER,
+    EMPLOYEE
 }

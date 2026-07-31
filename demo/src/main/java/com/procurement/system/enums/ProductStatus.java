@@ -1,4 +1,7 @@
 package com.procurement.system.enums;
 
-public class ProductStatus {
+public enum ProductStatus {
+    AVAILABLE,
+    OUT_OF_STOCK,
+    DISCONTINUED
 }
