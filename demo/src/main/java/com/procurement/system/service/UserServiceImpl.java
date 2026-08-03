@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return new LoginResponse("Invalid Email or Password", null);
         }
-        
+
         return new LoginResponse("Login Successful", user.getRole().name());
     }
 }

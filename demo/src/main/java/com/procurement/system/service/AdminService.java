@@ -1,4 +1,10 @@
 package com.procurement.system.service;
 
-public class AdminService {
+import com.procurement.system.dto.LoginRequest;
+import com.procurement.system.dto.LoginResponse;
+
+public interface AdminService {
+
+    LoginResponse login(LoginRequest request);
+
 }
