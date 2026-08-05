@@ -27,6 +27,9 @@ public class PurchaseRequestServiceImpl implements PurchaseRequestService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public PurchaseRequestResponse raiseRequest(PurchaseRequestRequest request) {
 
@@ -51,6 +54,14 @@ public class PurchaseRequestServiceImpl implements PurchaseRequestService {
         purchaseRequest.setUpdatedAt(LocalDateTime.now());
 
         PurchaseRequest savedRequest = purchaseRequestRepository.save(purchaseRequest);
+
+        emailService.sendRequestRaisedEmail(
+                user.getEmail(),
+                user.getName(),
+                product.getProductName(),
+                request.getQuantity(),
+                totalAmount
+        );
 
         return mapToResponse(savedRequest, "Purchase Request Raised Successfully");
     }
@@ -88,6 +99,12 @@ public class PurchaseRequestServiceImpl implements PurchaseRequestService {
 
         PurchaseRequest savedRequest = purchaseRequestRepository.save(request);
 
+        emailService.sendApprovalEmail(
+                request.getUser().getEmail(),
+                request.getUser().getName(),
+                request.getProduct().getProductName()
+        );
+
         return mapToResponse(savedRequest, "Purchase Request Approved");
     }
 
@@ -102,6 +119,13 @@ public class PurchaseRequestServiceImpl implements PurchaseRequestService {
         request.setUpdatedAt(LocalDateTime.now());
 
         PurchaseRequest savedRequest = purchaseRequestRepository.save(request);
+
+        emailService.sendRejectionEmail(
+                request.getUser().getEmail(),
+                request.getUser().getName(),
+                request.getProduct().getProductName(),
+                remarks
+        );
 
         return mapToResponse(savedRequest, "Purchase Request Rejected");
     }
