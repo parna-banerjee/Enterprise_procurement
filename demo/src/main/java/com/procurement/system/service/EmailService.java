@@ -16,4 +16,12 @@ public interface EmailService {
                             String employeeName,
                             String productName,
                             String remarks);
+
+    void sendApprovalRequestToManager(
+            String employeeName,
+            String employeeEmail,
+            String productName,
+            Integer quantity,
+            Double totalAmount
+    );
 }

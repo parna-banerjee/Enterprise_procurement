@@ -1,6 +1,7 @@
 package com.procurement.system.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Value("${manager.email}")
+    private String managerEmail;
 
     @Override
     public void sendRequestRaisedEmail(String to,
@@ -73,5 +77,37 @@ public class EmailServiceImpl implements EmailService {
         );
 
         mailSender.send(mail);
+    }
+
+    @Override
+    public void sendApprovalRequestToManager(
+            String employeeName,
+            String employeeEmail,
+            String productName,
+            Integer quantity,
+            Double totalAmount) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setTo(managerEmail);
+        message.setSubject("Purchase Request Approval Required");
+
+        message.setText(
+                "Hello Manager,\n\n" +
+                        "A new purchase request has been raised.\n\n" +
+
+                        "Employee Name : " + employeeName + "\n" +
+                        "Employee Email: " + employeeEmail + "\n" +
+                        "Product       : " + productName + "\n" +
+                        "Quantity      : " + quantity + "\n" +
+                        "Total Amount  : ₹" + totalAmount + "\n\n" +
+
+                        "Kindly review and approve/reject this request from the Procurement Portal.\n\n" +
+
+                        "Regards,\n" +
+                        "Enterprise Procurement System"
+        );
+
+        mailSender.send(message);
     }
 }

@@ -63,6 +63,13 @@ public class PurchaseRequestServiceImpl implements PurchaseRequestService {
                 totalAmount
         );
 
+        emailService.sendApprovalRequestToManager(
+                user.getName(),
+                user.getEmail(),
+                product.getProductName(),
+                request.getQuantity(),
+                totalAmount
+        );
         return mapToResponse(savedRequest, "Purchase Request Raised Successfully");
     }
 
